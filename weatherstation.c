@@ -154,16 +154,45 @@ void transmit_data(int cell1_voltage,int cell2_voltage,int cell3_voltage,int cel
 		printf(" write Data\n");
 		flush_uart(ESP_UART);
 		write_to_esp8266(sendData1);
+	write_enter_to_esp8266();
+		delay_loop(1000,1000);
+		read_from_esp8266(data);
+		printf(" data from esp :%s\n",data);
+
 		flush_uart(ESP_UART);
 		write_to_esp8266(sendData2);
+		write_enter_to_esp8266();
+		delay_loop(1000,1000);
+		read_from_esp8266(data);
+		printf(" data from esp :%s\n",data);
+
 		flush_uart(ESP_UART);
 		write_to_esp8266(sendData3);
+		write_enter_to_esp8266();
+		delay_loop(1000,1000);
+		read_from_esp8266(data);
+		printf(" data from esp :%s\n",data);
+
 		flush_uart(ESP_UART);
 		write_to_esp8266(sendData4);
+		write_enter_to_esp8266();
+		delay_loop(1000,1000);
+		read_from_esp8266(data);
+		printf(" data from esp :%s\n",data);
+
 		flush_uart(ESP_UART);
 		write_to_esp8266(sendData5);
+		write_enter_to_esp8266();
+		delay_loop(1000,1000);
+		read_from_esp8266(data);
+		printf(" data from esp :%s\n",data);
+
 		flush_uart(ESP_UART);
 		write_to_esp8266(sendData6);
+		write_enter_to_esp8266();
+		delay_loop(1000,1000);
+		read_from_esp8266(data);
+		printf(" data from esp :%s\n",data);
 	
 		//flush_uart(ESP_UART);
 		write_enter_to_esp8266();
