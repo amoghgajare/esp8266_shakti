@@ -90,7 +90,7 @@ void setup_esp8266(){
 	read_from_esp8266(data);
 
 	printf(" Connect esp8266 to AP \n");
-	write_to_esp8266("AT+CWMODE=3"); 
+	write_to_esp8266("AT+CWMODE=1"); 
 	delay(3);
 	read_from_esp8266(data);
 	write_to_esp8266("AT+CWJAP_DEF=\"SSID\",\"PASSWORD\""); //Edit the SSID and Password 
@@ -98,7 +98,7 @@ void setup_esp8266(){
 	read_from_esp8266(data);
 
 	printf(" sending AT Echo off command to esp\n");
-	write_to_esp8266("ATE0");
+	write_to_esp8266("ATE1");
 	delay(1);
 	read_from_esp8266(data);
 	printf(" write AT+CIPMUX\n");
@@ -112,7 +112,7 @@ void setup_esp8266(){
   * @details Open http connection to thingspeak.com, using GET method send data and close the connection
   * @param temperature value that has to eb transmitted.
 */
-void transmit_data(int cell1_voltage,int cell2_voltage,int cell3_voltage,int cell4_voltage,int current,int temperature) {
+void transmit_data(int cell1_voltage) {
 /***************************************************
     AT – response OK
     AT+CWLAP – list nearby available WiFi networks
@@ -123,27 +123,16 @@ void transmit_data(int cell1_voltage,int cell2_voltage,int cell3_voltage,int cel
 
 **************************************************/
 
-
 	char data[200];
 	char sendData1[76];
-	char sendData2[76];
-	char sendData3[76];
-	char sendData4[76];
-	char sendData5[76];
-	char sendData6[76];
 	sprintf(sendData1,"GET https://api.thingspeak.com/update?api_key=%s&field1=%d",API_KEY,cell1_voltage);
-	sprintf(sendData2,"GET https://api.thingspeak.com/update?api_key=%s&field2=%d",API_KEY,cell2_voltage);
-	sprintf(sendData3,"GET https://api.thingspeak.com/update?api_key=%s&field3=%d",API_KEY,cell3_voltage);
-	sprintf(sendData4,"GET https://api.thingspeak.com/update?api_key=%s&field4=%d",API_KEY,cell4_voltage);
-	sprintf(sendData5,"GET https://api.thingspeak.com/update?api_key=%s&field5=%d",API_KEY,current);
-	sprintf(sendData6,"GET https://api.thingspeak.com/update?api_key=%s&field6=%d",API_KEY,temperature);
-	//printf("\n send data %s\n",sendData);
+	printf("\n send data %s\n",sendData1);
 	// Connect to Wifi using esp8266
 
 		// Connect to Wifi using esp8266
-		printf(" Open connection to thingspeak.com\n",data);
+		//printf(" Open connection to thingspeak.com\n",data);
 		flush_uart(ESP_UART);
-		write_to_esp8266("AT+CIPSTART=\"TCP\",\"api.thingspeak.com\",80");
+		write_to_esp8266("AT+CIPSTART=\"TCP\",\"184.106.153.149\",80");
 		read_from_esp8266(data);
 		printf(" data from esp :%s\n",data);
 	
@@ -158,41 +147,6 @@ void transmit_data(int cell1_voltage,int cell2_voltage,int cell3_voltage,int cel
 		flush_uart(ESP_UART);
 		write_to_esp8266(sendData1);
 	write_enter_to_esp8266();
-		delay_loop(1000,1000);
-		read_from_esp8266(data);
-		printf(" data from esp :%s\n",data);
-
-		flush_uart(ESP_UART);
-		write_to_esp8266(sendData2);
-		write_enter_to_esp8266();
-		delay_loop(1000,1000);
-		read_from_esp8266(data);
-		printf(" data from esp :%s\n",data);
-
-		flush_uart(ESP_UART);
-		write_to_esp8266(sendData3);
-		write_enter_to_esp8266();
-		delay_loop(1000,1000);
-		read_from_esp8266(data);
-		printf(" data from esp :%s\n",data);
-
-		flush_uart(ESP_UART);
-		write_to_esp8266(sendData4);
-		write_enter_to_esp8266();
-		delay_loop(1000,1000);
-		read_from_esp8266(data);
-		printf(" data from esp :%s\n",data);
-
-		flush_uart(ESP_UART);
-		write_to_esp8266(sendData5);
-		write_enter_to_esp8266();
-		delay_loop(1000,1000);
-		read_from_esp8266(data);
-		printf(" data from esp :%s\n",data);
-
-		flush_uart(ESP_UART);
-		write_to_esp8266(sendData6);
-		write_enter_to_esp8266();
 		delay_loop(1000,1000);
 		read_from_esp8266(data);
 		printf(" data from esp :%s\n",data);
@@ -225,11 +179,6 @@ void main()
 	//int baudrate = 9600;
 	int baudrate = 115200;
 	int cell1_voltage=0;
-	int cell2_voltage=0;
-	int cell3_voltage=0;
-	int cell4_voltage=0;
-	int current=0;
-	int temperature = 24;
 	int transmit_count = 0;
 	char data[200];
    	printf("\n setting PIN MUX config to 2 .... \n");
@@ -242,14 +191,8 @@ void main()
 	delay(3);
 	setup_esp8266();
 	while (1) {
- 	cell1_voltage=0; //data
-	cell2_voltage=0;
-	cell3_voltage=0;
-	cell4_voltage=0;
-	current=0;
-	temperature = 24;
-			transmit_data(cell1_voltage,cell2_voltage,cell3_voltage,cell4_voltage,current,temperature); 
-		delay(60);
-
+ 	cell1_voltage=10; //data
+	transmit_data(cell1_voltage); 
+	delay(60);
 	}
 }
