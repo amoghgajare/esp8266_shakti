@@ -93,7 +93,7 @@ void setup_esp8266(){
 	write_to_esp8266("AT+CWMODE=3"); 
 	delay(3);
 	read_from_esp8266(data);
-	write_to_esp8266("AT+CWJAP=\"SSID\",\"PASSWORD\""); //Edit the SSID and Password 
+	write_to_esp8266("AT+CWJAP_DEF=\"SSID\",\"PASSWORD\""); //Edit the SSID and Password 
 	delay(3);
 	read_from_esp8266(data);
 
