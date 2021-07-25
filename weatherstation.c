@@ -48,11 +48,11 @@ int read_from_esp8266(char *data) {
 	char *test = data;
 	for(int i=0;i<198;i++) {
 		read_uart_character(ESP_UART,&ch);
-		//printf("read from esp %c  \n",ch);
+		printf("read from esp %c  \n",ch);
 		*str = ch;
 		str++; 
 		*str = '\0';
-		//printf("read  %c\n",ch);
+		printf("read  %c\n",ch);
 		if(strstr(test,"OK") != NULL)  {
 			printf("read from esp8266 %s\n",test);
 			return;
@@ -85,24 +85,24 @@ int read_from_esp8266(char *data) {
 */
 void setup_esp8266(){
 	char data[200];
-	write_to_esp8266("AT+RST");
+	write_to_esp8266("AT+RST"); //Restarts the Module
 	delay(1);
 	read_from_esp8266(data);
 
 	printf(" Connect esp8266 to AP \n");
-	write_to_esp8266("AT+CWMODE=1"); 
+	write_to_esp8266("AT+CWMODE=1"); //Setting up ESP8266 as a STA
 	delay(3);
 	read_from_esp8266(data);
 	write_to_esp8266("AT+CWJAP_DEF=\"SSID\",\"PASSWORD\""); //Edit the SSID and Password 
 	delay(3);
 	read_from_esp8266(data);
 
-	printf(" sending AT Echo off command to esp\n");
-	write_to_esp8266("ATE1");
+	printf(" sending AT Echo on command to esp\n");
+	write_to_esp8266("ATE1"); //Turning Echo On
 	delay(1);
 	read_from_esp8266(data);
 	printf(" write AT+CIPMUX\n");
-	write_to_esp8266("AT+CIPMUX=0");
+	write_to_esp8266("AT+CIPMUX=0"); //Establishes Single TCP Connection
 	delay(1);
 	read_from_esp8266(data);
 }
