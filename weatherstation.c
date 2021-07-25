@@ -85,11 +85,14 @@ int read_from_esp8266(char *data) {
 */
 void setup_esp8266(){
 	char data[200];
-	write_to_esp8266("AT");
+	write_to_esp8266("AT+RST");
 	delay(1);
 	read_from_esp8266(data);
 
 	printf(" Connect esp8266 to AP \n");
+	write_to_esp8266("AT+CWMODE=3"); 
+	delay(3);
+	read_from_esp8266(data);
 	write_to_esp8266("AT+CWJAP=\"SSID\",\"PASSWORD\""); //Edit the SSID and Password 
 	delay(3);
 	read_from_esp8266(data);
