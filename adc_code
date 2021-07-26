@@ -31,7 +31,7 @@
 #include "log.h"
 #include "uart.h"
 
-#define PCF8591_SLAVE_ADDRESS 0x90 // I2C bus address //doubt
+#define PCF8591_SLAVE_ADDRESS 0x48 // I2C bus address //doubt
 #define PCF8591_CONTROL_REGISTER_VALUE 0x04
 #define PCF8591_REG_OFFSET 0
 
