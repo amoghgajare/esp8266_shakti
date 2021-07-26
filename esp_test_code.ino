@@ -11,7 +11,7 @@ SoftwareSerial esp8266Module(10, 11);               // RX, TX
 String network = "----";                            // your access point SSID
 String password = "-------------";                  // your wifi Access Point password
 #define IP "184.106.153.149"                        // IP address of thingspeak.com
-String GET = "GET /update?key=----------------";    // replace with your channel key
+String GET = "GET /update?key=CXDZFGD1QQ8HYVTG";    // replace with your channel key
 
 
 void setup()
