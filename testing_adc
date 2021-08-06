@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include "gpio.h"
+#include "utils.h"
+#include "platform.h"
+#include "digitalReadWrite.h"
+#define HIGH 1
+#define LOW 0
+
+// cs_bar is optional or can be connected to ground
+int rd_bar=8,wr_bar=9,intr_bar=10;
+//cs_bar=11; 
+// 5 configuration lines other bits as below
+// bit5=>5;bit6=>6;bit7=>7
+int ma0=2,ma1=3,ma2=4,ma3=12,ma4=13; 
+
+int main(){
+	// while(1){
+	// 	write_word(GPIO_DIRECTION_CNTRL_REG,65536);
+	// 	write_word(GPIO_DATA_REG,65536);
+	// 	delay(50);
+	// }
+	while(1){
+		write_word(GPIO_DIRECTION_CNTRL_REG,0x0000331C);
+		write_word(GPIO_DATA_REG,0x00001300); //8,9,12
+		delay_loop(5000,2000);
+		//write_word(GPIO_DIRECTION_CNTRL_REG,1024);
+		int data = read_word(GPIO_DATA_REG);
+		printf("\n%d\n",data);
+		if(data==5888){
+			printf("Conversion needs to be done\n");
+			// Give negative pulse on wr_bar 9
+			write_word(GPIO_DATA_REG,0x00001100);
+			delay_loop(10,10);
+			write_word(GPIO_DATA_REG,0x00001300); //8,9,12
+			printf("Now wait for conversion\n");
+			// Delay greater than 40U sec
+			delay(1);
+		}
+		else{
+			printf("Conversion done\n");
+			// ma3 read mode
+			write_word(GPIO_DIRECTION_CNTRL_REG,0x00000300);// 8 & 9 Control
+			// give negative pulse on rd_bar
+			write_word(GPIO_DATA_REG,0x00000200);
+			delay_loop(1,1);
+			write_word(GPIO_DATA_REG,0x00000300);
+			int dec_val = read_word(GPIO_DATA_REG);
+			printf("decimal value: %d",dec_val);
+			// Now read all the data pins
+		}
+		delay(10);
+	}
+	// while(1){
+	// 	write_word(GPIO_DIRECTION_CNTRL_REG, 0x00000000);
+	// 	int data = read_word(GPIO_DATA_REG);
+	// 	printf("interrupt",data);
+	// 	write_word(GPIO_DIRECTION_CNTRL_REG,4864); // 12 8 9 
+	// 	write_word(GPIO_DATA_REG,4864);
+	// 	if(data!=0){
+	// 		write_word(GPIO_DIRECTION_CNTRL_REG,4352); // 9 goes LOW
+	// 		write_word(GPIO_DATA_REG,4352);
+	// 		delay_loop(300,200);
+	// 		write_word(GPIO_DIRECTION_CNTRL_REG,4352); // 9 goes HIGH again
+	// 		write_word(GPIO_DATA_REG,4352);
+	// 		printf("Conversion signal given\n");
+	// 	}
+	// 	else{
+	// 		// Conversion done
+	// 		printf("conversion done\n");
+	// 		write_word(GPIO_DIRECTION_CNTRL_REG,512); // 8 goes 
+	// 		write_word(GPIO_DATA_REG,768);
+	// 		break;
+	// 	}
+	// delay_loop(5000,2000);
+	// }
+}
