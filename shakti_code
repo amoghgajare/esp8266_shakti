@@ -5,7 +5,8 @@
 
 int rd_bar=8,wr_bar=9,intr_bar=10;
 int ma0=2,ma1=3,ma2=4,ma3=12,ma4=13;
-int v1,v2,v3,v4,curr,temp,soc,soh; 
+float v1,v2,v3,v4;
+int curr,temp,soc,soh; 
 int count = 0;
 float current = 1000;            //in millamperes
 float crated = 3950; 
@@ -249,7 +250,7 @@ if (socCharged >= 50) {
                     + (newCap / SMOOTH_CAP) * socCharged;
 }
 
-        printf("V1%d,V2%d,V3%d,V4%d,C%d,T%d,SOC%d,SOH%d",(v1*5/256),(v2*5/256),(v3*5/256),(v4*5/256),curr*4,temp,soc,soh);
+        printf("V1%f,V2%f,V3%f,V4%f,C%d,T%d,SOC%d,SOH%d",(v1*5/256),(v2*5/256),(v3*5/256),(v4*5/256),curr*4,temp,soc,soh);
 	}
 	
 }
